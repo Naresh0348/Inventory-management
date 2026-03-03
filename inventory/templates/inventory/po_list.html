@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchase Orders</title>
+</head>
+<body>
+
+    <h2>Purchase Order History</h2>
+    <nav>
+        <a href="{% url 'po_add' %}"><strong>[+] Create New Purchase Order</strong></a>
+    </nav>
+    <hr>
+
+    <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th>Order ID</th>
+                <th>Supplier</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Date Ordered</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>PO-{{ order.id }}</td>
+                <td>{{ order.supplier.company_name }}</td>
+                <td>{{ order.product.name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>
+                    {% if order.status == 'PENDING' %}
+                        <span style="color: orange; font-weight: bold;">PENDING</span>
+                    {% elif order.status == 'RECEIVED' %}
+                        <span style="color: green; font-weight: bold;">RECEIVED</span>
+                    {% else %}
+                        <span style="color: gray;">{{ order.status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+                <td>
+                    {% if order.status == 'PENDING' %}
+                        <a href="{% url 'admin:inventory_purchaseorder_change' order.id %}">Update Status</a>
+                    {% else %}
+                        <span style="color: #888;">Completed</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No purchase orders found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+<br/>
+</html>

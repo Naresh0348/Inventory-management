@@ -1,0 +1,28 @@
+<h2>Inventory Status Report</h2>
+<div style="background: #f4f4f4; padding: 15px; margin-bottom: 20px;">
+    <p><strong>Total Warehouse Value:</strong> ${{ total_value }}</p>
+    <p><strong>Items in Shortage:</strong> {{ shortage_count }}</p>
+</div>
+
+<table border="1" style="width:100%; border-collapse: collapse;">
+    <tr style="background-color: #eee;">
+        <th>Product</th>
+        <th>Stock Level</th>
+        <th>Unit Price</th>
+        <th>Stock Status</th>
+    </tr>
+    {% for p in products %}
+    <tr>
+        <td>{{ p.name }}</td>
+        <td>{{ p.stock_level }}</td>
+        <td>${{ p.price }}</td>
+        <td>
+            {% if p.stock_level <= p.threshold %}
+                <span style="color: red;">CRITICAL</span>
+            {% else %}
+                <span style="color: green;">Healthy</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

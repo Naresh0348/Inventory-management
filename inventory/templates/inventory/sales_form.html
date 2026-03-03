@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Record a Sale</title>
+</head>
+<body>
+
+    <h2>Record New Sale</h2>
+    <hr>
+
+    {% if form.non_field_errors %}
+        <div style="color: white; background-color: #d9534f; padding: 10px; border: 1px solid #c9302c; margin-bottom: 20px; border-radius: 4px;">
+            <strong>Error:</strong> {{ form.non_field_errors|striptags }}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div>
+            {{ form.product.label_tag }}<br>
+            {{ form.product }}
+            {% if form.product.errors %}
+                <span style="color: red;">{{ form.product.errors|striptags }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {{ form.quantity.label_tag }}<br>
+            {{ form.quantity }}
+            {% if form.quantity.errors %}
+                <span style="color: red;">{{ form.quantity.errors|striptags }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {{ form.customer_name.label_tag }}<br>
+            {{ form.customer_name }}
+            {% if form.customer_name.errors %}
+                <span style="color: red;">{{ form.customer_name.errors|striptags }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {{ form.status.label_tag }}<br>
+            {{ form.status }}
+        </div>
+        <br>
+
+        <button type="submit">Complete Sale</button>
+        <a href="{% url 'dashboard' %}">Cancel</a>
+    </form>
+
+</body>
+</html>

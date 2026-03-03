@@ -1,0 +1,15 @@
+# Python environment
+venv/
+__pycache__/
+*.py[cod]
+
+# Secret variables
+.env
+
+# Django specific
+media/
+staticfiles/
+
+# OS/IDE specific
+.DS_Store
+.vscode/

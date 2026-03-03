@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if object %}Edit{% else %}Add{% endif %} Supplier</title>
+</head>
+<body>
+
+    <h2>{% if object %}Edit Supplier: {{ object.company_name }}{% else %}Add New Supplier{% endif %}</h2>
+    <hr>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+
+        <div style="margin-top: 20px;">
+            <button type="submit">
+                {% if object %}Update Supplier{% else %}Save Supplier{% endif %}
+            </button>
+            <a href="{% url 'supplier_list' %}">
+                <button type="button">Cancel</button>
+            </a>
+        </div>
+    </form>
+
+    <hr>
+    <section>
+        <h4>Quick Tips:</h4>
+        <ul>
+            <li>Ensure the email address is valid for automated notifications.</li>
+            <li>Contact person should be the primary lead for purchase orders.</li>
+        </ul>
+    </section>
+
+</body>
+</html>

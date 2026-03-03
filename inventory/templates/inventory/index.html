@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Inventory Dashboard</title>
+</head>
+<body>
+    
+    <h1>Dashboard</h1>
+    <hr>
+    <a href="/notification/">
+        <h4 style=" color: rgb(243, 13, 13); width: fit-content;">Notification</h4>
+    </a>
+
+    <section>
+        <h3>System Overview</h3>
+        <ul>
+            <li><strong>Total Products:</strong> {{ total_products }}</li>
+            <li><strong>Low Stock Items:</strong> {{ low_stock_count }}</li>
+            <li><strong>Pending Orders:</strong> {{ pending_orders }}</li>
+            <li><strong>Total Suppliers:</strong> {{ total_suppliers }}</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section>
+        <h3>Recent Sales Activity</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Customer Name</th>
+                    <th>Quantity Sold</th>
+                    <th>Order Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in recent_sales %}
+                <tr>
+                    <td>{{ sale.product.name }}</td>
+                    <td>{{ sale.customer_name }}</td>
+                    <td>{{ sale.quantity }}</td>
+                    <td>{{ sale.status }}</td>
+                    <td>{{ sale.sale_date|date:"Y-m-d" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No sales recorded yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <hr>
+
+    <section>
+        <h3>Products and Sales</h3>
+        <nav>
+            <a href="/products/"> View Products</a> | 
+            <a href="/purchase-orders/"> View Purchase Order</a> |
+            <a href="/sales/"> View Sales</a>
+        </nav>
+    </section>
+    <br/>
+    <section>
+        <h3>Reports</h3>
+        <nav>
+            <a href="/report/inventory/"> Stock Availability</a> | 
+            <a href="/report/sales/"> Sales Report</a> |
+            <a href="/report/expenditure/"> Purchase Report</a>
+        </nav>
+    </section>
+
+    <br/>
+    <br/>
+
+    <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+    </form>
+    
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Analytics Report</title>
+    <style>
+        .report-container { font-family: sans-serif; max-width: 900px; margin: auto; }
+        .grid-container { display: flex; gap: 20px; margin-bottom: 30px; }
+        .card { 
+            flex: 1; 
+            padding: 20px; 
+            border-radius: 8px; 
+            color: white; 
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .daily { background-color: #28a745; }
+        .weekly { background-color: #007bff; }
+        .monthly { background-color: #6f42c1; }
+        .card h3 { margin: 0; font-size: 14px; opacity: 0.9; }
+        .card p { margin: 10px 0 0; font-size: 24px; font-weight: bold; }
+        .back-link { margin-bottom: 20px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="report-container">
+    <a href="{% url 'dashboard' %}" class="back-link">← Back to Dashboard</a>
+    
+    <h1>Sales & Revenue Report</h1>
+    <p>Generated on: {{ "now"|date:"F d, Y" }}</p>
+    <hr>
+
+    <div class="grid-container">
+        <div class="card daily">
+            <h3>Daily Revenue (Last 24h)</h3>
+            <p>${{ daily_revenue|floatformat:2 }}</p>
+        </div>
+
+        <div class="card weekly">
+            <h3>Weekly Revenue (7 Days)</h3>
+            <p>${{ weekly_revenue|floatformat:2 }}</p>
+        </div>
+
+        <div class="card monthly">
+            <h3>Monthly Revenue (30 Days)</h3>
+            <p>${{ monthly_revenue|floatformat:2 }}</p>
+        </div>
+    </div>
+
+    <section>
+        <h3>Revenue Insights</h3>
+        <ul>
+            <li><strong>Average Daily Sales:</strong> ${{ avg_daily_rev|floatformat:2 }} (Based on weekly data)</li>
+            <li><strong>Status:</strong> 
+                {% if daily_revenue > 0 %}
+                    <span style="color: green;">Active</span>
+                {% else %}
+                    <span style="color: orange;">No Sales in last 24h</span>
+                {% endif %}
+            </li>
+        </ul>
+    </section>
+
+    <hr>
+    <button onclick="window.print()">Print Report</button>
+</div>
+
+</body>
+</html>

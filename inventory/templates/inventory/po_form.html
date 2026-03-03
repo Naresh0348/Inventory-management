@@ -1,0 +1,7 @@
+<h2>Create Purchase Order (Restock)</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Order</button>
+</form>
+<p>Note: Stock will only increase if status is set to 'RECEIVED'.</p>

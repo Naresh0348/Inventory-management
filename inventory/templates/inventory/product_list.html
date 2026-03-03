@@ -1,0 +1,31 @@
+<h2>Product Inventory</h2>
+<a href="{% url 'dashboard' %}" style="margin-bottom: 20px; display: block;" class="back-link">← Back to Dashboard</a>
+<a href="{% url 'product_create' %}">[+] Add New Product</a>
+
+<br/>
+<br/>
+<table border="1">
+    <tr>
+        <th>SKU</th>
+        <th>Name</th>
+        <th>Stock</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.sku }}</td>
+        <td>{{ product.name }} {% if product.is_low_stock %}(LOW){% endif %}</td>
+        <td>{{ product.stock_level }}</td>
+        <td>${{ product.price }}</td>
+        <td>
+            <a href="{% url 'product_update' product.id %}">Edit</a> |
+            <a href="{% url 'product_delete' product.id %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    
+
+    
+</table>
+<br/>
