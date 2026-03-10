@@ -1,18 +1,119 @@
-<h2>Supplier Directory</h2>
-<a href="{% url 'supplier_add' %}">[+] Add New Supplier</a>
-<table border="1">
-    <tr>
-        <th>Company</th>
-        <th>Contact Person</th>
-        <th>Email</th>
-        <th>Phone</th>
-    </tr>
-    {% for supplier in suppliers %}
-    <tr>
-        <td>{{ supplier.company_name }}</td>
-        <td>{{ supplier.contact_person }}</td>
-        <td>{{ supplier.email }}</td>
-        <td>{{ supplier.phone }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        /* 1. Page Setup */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        h2 {
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        /* 2. Add Button Style */
+        .add-link {
+            text-decoration: none;
+            background-color: #0ea5e9; /* Sky Blue */
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 25px;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .add-link:hover {
+            background-color: #0284c7;
+            transform: translateY(-1px);
+        }
+
+        /* 3. Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #64748b;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Row hover effect for easier reading */
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* 4. Contact Info Styling */
+        .contact-email {
+            color: #2563eb;
+            font-size: 0.95em;
+        }
+
+        .company-name {
+            font-weight: 700;
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Supplier Directory</h2>
+    
+    <a href="{% url 'supplier_add' %}" class="add-link">[+] Add New Supplier</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Contact Person</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td class="company-name">{{ supplier.company_name }}</td>
+                <td>{{ supplier.contact_person }}</td>
+                <td class="contact-email">{{ supplier.email }}</td>
+                <td>{{ supplier.phone }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: #94a3b8; padding: 40px;">
+                    No suppliers found in the directory.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p style="margin-top: 30px;">
+        <a href="{% url 'dashboard' %}" style="color: #64748b; text-decoration: none; font-size: 14px;">← Back to Dashboard</a>
+    </p>
+
+</body>
+</html>

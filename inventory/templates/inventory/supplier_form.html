@@ -1,36 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>{% if object %}Edit{% else %}Add{% endif %} Supplier</title>
+    <style>
+        /* 1. Page Setup */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            padding: 50px 20px;
+            margin: 0;
+        }
+
+        /* 2. Form Card */
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid #e2e8f0;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #0f172a;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #f1f5f9;
+            margin: 20px 0;
+        }
+
+        /* 3. Django form.as_p styling */
+        form p {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        /* 4. Buttons */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 2;
+            padding: 12px;
+            background-color: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: #0284c7; }
+
+        /* Cancel button style */
+        button[type="button"] {
+            flex: 1;
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+
+        button[type="button"]:hover { background-color: #e2e8f0; }
+
+        /* 5. Tips Section */
+        .tips {
+            background-color: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #0ea5e9;
+            margin-top: 25px;
+        }
+
+        .tips h4 { margin: 0 0 10px 0; color: #0369a1; font-size: 14px; }
+        .tips ul { margin: 0; padding-left: 20px; font-size: 13px; color: #0c4a6e; }
+        .tips li { margin-bottom: 5px; }
+
+    </style>
 </head>
 <body>
 
-    <h2>{% if object %}Edit Supplier: {{ object.company_name }}{% else %}Add New Supplier{% endif %}</h2>
+<div class="card">
+    <h2>{% if object %}Edit Supplier{% else %}Add New Supplier{% endif %}</h2>
     <hr>
 
     <form method="post">
         {% csrf_token %}
-        
         {{ form.as_p }}
 
-        <div style="margin-top: 20px;">
+        <div class="btn-group">
             <button type="submit">
                 {% if object %}Update Supplier{% else %}Save Supplier{% endif %}
             </button>
-            <a href="{% url 'supplier_list' %}">
-                <button type="button">Cancel</button>
+            <a href="{% url 'supplier_list' %}" style="flex: 1; text-decoration: none;">
+                <button type="button" style="width: 100%;">Cancel</button>
             </a>
         </div>
     </form>
 
-    <hr>
-    <section>
-        <h4>Quick Tips:</h4>
+    <section class="tips">
+        <h4>💡 Quick Tips</h4>
         <ul>
-            <li>Ensure the email address is valid for automated notifications.</li>
-            <li>Contact person should be the primary lead for purchase orders.</li>
+            <li>Ensure the email is valid for automated notifications.</li>
+            <li>Contact person should be the primary lead for orders.</li>
         </ul>
     </section>
+</div>
 
 </body>
 </html>

@@ -2,18 +2,105 @@
 <html>
 <head>
     <title>Sales History</title>
+    <style>
+        /* 1. Basic Setup */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h2 {
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        /* 2. Navigation & Buttons */
+        nav {
+            margin: 20px 0;
+        }
+
+        .btn-sale {
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: bold;
+            /* Smooth transition for hover effect */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-sale:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        /* 3. Simple Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden; /* Keeps corners rounded */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .back-link {
+            color: #666;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Smooth hover for table rows */
+        tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        /* 4. Action Links */
+        .manage-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .manage-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
     <h2>Sales History</h2>
-    <nav>
-        <a href="{% url 'sales_add' %}"><strong>[+] Record New Sale</strong></a>
-    </nav>
-    <hr>
 
-    <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
+    <a href="{% url 'dashboard' %}" class="back-link">← Back to Dashboard</a>
+    
+    <nav>
+        <a href="{% url 'sales_add' %}" class="btn-sale">[+] Record New Sale</a>
+    </nav>
+
+    <table>
         <thead>
-            <tr style="background-color: #f2f2f2;">
+            <tr>
                 <th>Date</th>
                 <th>Customer</th>
                 <th>Product</th>
@@ -26,25 +113,27 @@
             {% for sale in sales %}
             <tr>
                 <td>{{ sale.sale_date|date:"M d, Y H:i" }}</td>
-                <td>{{ sale.customer_name }}</td>
+                <td><strong>{{ sale.customer_name }}</strong></td>
                 <td>{{ sale.product.name }}</td>
                 <td>{{ sale.quantity }}</td>
                 <td>
                     {% if sale.status == 'COMPLETED' %}
-                        <span style="color: green;">✔ Completed</span>
+                        <span style="color: #16a34a; font-weight: 600;">✔ Completed</span>
                     {% elif sale.status == 'SHIPPED' %}
-                        <span style="color: blue;">✈ Shipped</span>
+                        <span style="color: #2563eb; font-weight: 600;">✈ Shipped</span>
                     {% else %}
-                        <span style="color: orange;">⏳ Pending</span>
+                        <span style="color: #d97706; font-weight: 600;">⏳ Pending</span>
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{% url 'admin:inventory_sales_change' sale.id %}">Manage</a>
+                    <a href="{% url 'admin:inventory_sales_change' sale.id %}" class="manage-link">Manage</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6">No sales recorded yet.</td>
+                <td colspan="6" style="text-align: center; color: #94a3b8; padding: 30px;">
+                    No sales recorded yet.
+                </td>
             </tr>
             {% endfor %}
         </tbody>

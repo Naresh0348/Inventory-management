@@ -2,18 +2,90 @@
 <html>
 <head>
     <title>Purchase Orders</title>
+    <style>
+        /* 1. Page Layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        /* 2. Navigation & Buttons */
+        nav {
+            margin-bottom: 20px;
+        }
+
+        .btn-create {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .btn-create:hover {
+            background-color: #0056b3;
+        }
+
+        /* 3. Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* This makes the borders single lines */
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #555;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #fafafa;
+        }
+
+        .back-link {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 4. Status Badges */
+        .status {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .status-pending { color: #d97706; } /* Orange-Gold */
+        .status-received { color: #16a34a; } /* Green */
+        .status-default { color: #6b7280; } /* Gray */
+
+    </style>
 </head>
 <body>
 
     <h2>Purchase Order History</h2>
+    <a href="{% url 'dashboard' %}" class="back-link">← Back to Dashboard</a>
+    <br/><br/>
+    
     <nav>
-        <a href="{% url 'po_add' %}"><strong>[+] Create New Purchase Order</strong></a>
+        <a href="{% url 'po_add' %}" class="btn-create">[+] Create New Purchase Order</a>
     </nav>
-    <hr>
 
-    <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
+    <table>
         <thead>
-            <tr style="background-color: #f2f2f2;">
+            <tr>
                 <th>Order ID</th>
                 <th>Supplier</th>
                 <th>Product</th>
@@ -26,36 +98,35 @@
         <tbody>
             {% for order in orders %}
             <tr>
-                <td>PO-{{ order.id }}</td>
+                <td><strong>PO-{{ order.id }}</strong></td>
                 <td>{{ order.supplier.company_name }}</td>
                 <td>{{ order.product.name }}</td>
                 <td>{{ order.quantity }}</td>
                 <td>
                     {% if order.status == 'PENDING' %}
-                        <span style="color: orange; font-weight: bold;">PENDING</span>
+                        <span class="status status-pending">PENDING</span>
                     {% elif order.status == 'RECEIVED' %}
-                        <span style="color: green; font-weight: bold;">RECEIVED</span>
+                        <span class="status status-received">RECEIVED</span>
                     {% else %}
-                        <span style="color: gray;">{{ order.status }}</span>
+                        <span class="status status-default">{{ order.status }}</span>
                     {% endif %}
                 </td>
                 <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
                 <td>
                     {% if order.status == 'PENDING' %}
-                        <a href="{% url 'admin:inventory_purchaseorder_change' order.id %}">Update Status</a>
+                        <a href="{% url 'admin:inventory_purchaseorder_change' order.id %}">Update</a>
                     {% else %}
-                        <span style="color: #888;">Completed</span>
+                        <span style="color: #999;">Completed</span>
                     {% endif %}
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="7">No purchase orders found.</td>
+                <td colspan="7" style="text-align: center; color: #888;">No purchase orders found.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
 </body>
-<br/>
 </html>

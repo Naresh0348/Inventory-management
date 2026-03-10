@@ -1,37 +1,135 @@
-<h2>Notifications & Alerts</h2>
-<hr>
+<!DOCTYPE html>
+<html>
 <head>
-    <title>Notification</title>
+    <title>Notifications</title>
+    <style>
+        /* 1. Page Setup */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #e2e8f0;
+            margin-bottom: 30px;
+        }
+
+        /* 2. Alert Sections as Cards */
+        .alert-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease;
+        }
+
+        .alert-section:hover {
+            transform: translateX(5px); /* Small slide effect on hover */
+        }
+
+        .alert-section h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 3. Decorative Side Borders */
+        .low-stock-border { border-left: 5px solid #ef4444; }    /* Red */
+        .pending-border { border-left: 5px solid #f59e0b; }      /* Yellow/Orange */
+        .demand-border { border-left: 5px solid #3b82f6; }       /* Blue */
+
+        /* 4. List Styling */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 15px;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .empty-msg {
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+    </style>
 </head>
+<body>
 
-<div class="alert-section">
-    <h3 style="color: #d9534f;"> Low Stock Alerts</h3>
-    <ul>
-        {% for item in low_stock %}
-            <li><strong>{{ item.name }}</strong> is at {{ item.stock_level }}. (Threshold: {{ item.threshold }})</li>
-        {% empty %}
-            <li>All stock levels are healthy.</li>
-        {% endfor %}
-    </ul>
+<div class="container">
+    <h2>Notifications & Alerts</h2>
+    <hr>
+
+    <div class="alert-section low-stock-border">
+        <h3 style="color: #ef4444;">Low Stock Alerts</h3>
+        <ul>
+            {% for item in low_stock %}
+                <li><strong>{{ item.name }}</strong> is at {{ item.stock_level }}. (Threshold: {{ item.threshold }})</li>
+            {% empty %}
+                <li class="empty-msg">All stock levels are healthy.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="alert-section pending-border">
+        <h3 style="color: #f59e0b;">Pending Supplier Orders</h3>
+        <p style="font-size: 14px; color: #64748b; margin: 5px 0;">Orders that haven't been received yet:</p>
+        <ul>
+            {% for order in overdue_orders %}
+                <li>Order <strong>PO-{{ order.id }}</strong> from {{ order.supplier }} is pending since {{ order.order_date|date:"M d" }}</li>
+            {% empty %}
+                <li class="empty-msg">No overdue pending orders.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="alert-section demand-border">
+        <h3 style="color: #3b82f6;">High Demand Products</h3>
+        <ul>
+            {% for item in high_demand %}
+                <li><strong>{{ item.name }}</strong>: Moving fast! ({{ item.total_sold }} units sold recently)</li>
+            {% empty %}
+                <li class="empty-msg">No high demand data currently.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="{% url 'dashboard' %}" class="back-link">← Back to Dashboard</a>
 </div>
 
-<div class="alert-section">
-    <h3 style="color: #f0ad4e;"> Pending Supplier Orders</h3>
-    <p>Orders that haven't been received yet:</p>
-    <ul>
-        {% for order in overdue_orders %}
-            <li>Order PO-{{ order.id }} from {{ order.supplier }} is pending since {{ order.order_date|date:"M d" }}</li>
-        {% empty %}
-            <li>No overdue pending orders.</li>
-        {% endfor %}
-    </ul>
-</div>
-
-<div class="alert-section">
-    <h3 style="color: #5bc0de;"> High Demand Products</h3>
-    <ul>
-        {% for item in high_demand %}
-            <li><strong>{{ item.name }}</strong>: Moving fast! ({{ item.total_sold }} units sold recently)</li>
-        {% endfor %}
-    </ul>
-</div>
+</body>
+</html>

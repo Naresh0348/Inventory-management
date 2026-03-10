@@ -1,17 +1,161 @@
-<h2>Login</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Inventory Pro</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --error: #ef4444;
+            --success: #22c55e;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-align: center;
+            color: #0f172a;
+        }
+
+        /* Django form formatting (form.as_p) */
+        form p {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #64748b;
+        }
+
+        input[type="text"], 
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-sizing: border-box; /* Crucial for padding */
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-error, .alert-danger {
+            background-color: #fef2f2;
+            color: var(--error);
+            border-color: #fee2e2;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            color: var(--success);
+            border-color: #dcfce7;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .register-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <body>
-    {% if messages%}
-      {% for message in messages%}
+
+<div class="login-container">
+    <h2>Login</h2>
+
+    {% if messages %}
+      {% for message in messages %}
         <div class="alert alert-{{ message.tags }}">
             {{ message }}
         </div>
       {% endfor %}
     {% endif %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
-<p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login to Dashboard</button>
+    </form>
+
+    <div class="register-link">
+        Don't have an account? <a href="{% url 'register' %}">Register here</a>
+    </div>
+</div>
+
 </body>
+</html>
